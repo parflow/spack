@@ -47,7 +47,7 @@ class Parflow(CMakePackage):
     url      = "https://github.com/parflow/parflow/archive/v3.2.1.tar.gz"
 
     # FIXME: Add proper versions and checksums here.
-    version('develop', git='https://github.com/parflow/parflow.git', branch='spack')
+    version('develop', git='https://github.com/parflow/parflow.git', branch='master')
     version('3.2.1', '5454efe36170eb23c7c95fbe8ffe76db')
 
     depends_on('tcl@8.6.6')
