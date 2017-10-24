@@ -42,6 +42,10 @@ class Silo(Package):
             description='Builds Silex, a GUI for viewing Silo files')
     variant('pic', default=True,
             description='Produce position-independent code (for shared libs)')
+    variant('hzip', default=True,
+            description='Enable hzip support')
+    variant('fpzip', default=True,
+            description='Enable fpzip support')
 
     depends_on('hdf5')
     depends_on('qt', when='+silex')
@@ -63,6 +67,16 @@ class Silo(Package):
                 'CFLAGS={0}'.format(self.compiler.pic_flag),
                 'CXXFLAGS={0}'.format(self.compiler.pic_flag),
                 'FCFLAGS={0}'.format(self.compiler.pic_flag)]
+
+        if '+hzip' in spec:
+            config_args.append('--enable-hzip')
+        else:
+            config_args.append('--disable-hzip')
+
+        if '+fpzip' in spec:
+            config_args.append('--enable-fpzip')
+        else:
+            config_args.append('--disable-fpzip')
 
         configure(
             '--prefix=%s' % prefix,
