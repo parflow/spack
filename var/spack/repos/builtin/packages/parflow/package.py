@@ -50,6 +50,7 @@ class Parflow(CMakePackage):
     version('develop', git='https://github.com/parflow/parflow.git', branch='master')
     version('3.2.1', '5454efe36170eb23c7c95fbe8ffe76db')
 
+    # Using explicit versions to keep builds consistent
     depends_on('tcl@8.6.6')
 
     depends_on('mpi@3.0.0')
@@ -61,19 +62,19 @@ class Parflow(CMakePackage):
 
     depends_on('hypre@2.12.1')
 
+    parallel = False
+
     def cmake_args(self):
         """Populate cmake arguments for ParFlow."""
         spec = self.spec
 
         cmake_args = [
             '-DPARFLOW_AMPS_LAYER=mpi1',
-            '-DTCL_LIBRARY={0}'.format(spec['tcl'].prefix.lib),
-            '-DTCL_INCLUDE={0}'.format(spec['tcl'].prefix.include),
+            '-DTCL_LIBRARY={0}/libtcl8.6.so'.format(spec['tcl'].prefix.lib),
             '-DHDF5_ROOT={0}'.format(spec['hdf5'].prefix),
             '-DSILO_ROOT={0}'.format(spec['silo'].prefix),
             '-DHYPRE_ROOT={0}'.format(spec['hypre'].prefix),
-            '-DNETCDF_INCLUDE_DIR={0}/include'.format(spec['netcdf'].prefix),
-            '-DNETCDF_LIBRARY={0}/lib/libnetcdf.a'.format(spec['netcdf'].prefix),
+            '-DNETCDF_DIR={0}'.format(spec['netcdf'].prefix),
             '-DPARFLOW_HAVE_CLM=TRUE',
             '-DPARFLOW_AMPS_LAYER=mpi1',
         ]
