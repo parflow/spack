@@ -38,6 +38,7 @@
 # please first remove this boilerplate and all FIXME comments.
 #
 from spack import *
+import sys
 
 
 class Parflow(CMakePackage):
@@ -68,9 +69,15 @@ class Parflow(CMakePackage):
         """Populate cmake arguments for ParFlow."""
         spec = self.spec
 
+        if sys.platform == 'darwin':
+                shared_suffix = 'dylib'
+        else:
+            shared_suffix = 'so'
+
         cmake_args = [
             '-DPARFLOW_AMPS_LAYER=mpi1',
-            '-DTCL_LIBRARY={0}/libtcl8.6.so'.format(spec['tcl'].prefix.lib),
+            '-DTCL_TCLSH={0}/tclsh'.format(spec['tcl'].prefix.bin),
+            '-DTCL_LIBRARY={0}/libtcl8.6.{1}'.format(spec['tcl'].prefix.lib, shared_suffix),
             '-DHDF5_ROOT={0}'.format(spec['hdf5'].prefix),
             '-DSILO_ROOT={0}'.format(spec['silo'].prefix),
             '-DHYPRE_ROOT={0}'.format(spec['hypre'].prefix),
