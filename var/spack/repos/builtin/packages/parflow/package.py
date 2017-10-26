@@ -84,6 +84,7 @@ class Parflow(CMakePackage):
             '-DNETCDF_DIR={0}'.format(spec['netcdf'].prefix),
             '-DPARFLOW_HAVE_CLM=TRUE',
             '-DPARFLOW_AMPS_LAYER=mpi1',
+            '-DPARFLOW_AMPS_SEQUENTIAL_IO=true',
         ]
 
         return cmake_args
