@@ -70,9 +70,11 @@ class Parflow(CMakePackage):
         spec = self.spec
 
         if sys.platform == 'darwin':
-                shared_suffix = 'dylib'
+            shared_suffix = 'dylib'
+            static_suffix = 'a'
         else:
             shared_suffix = 'so'
+            static_suffix = 'a'
 
         cmake_args = [
             '-DPARFLOW_AMPS_LAYER=mpi1',
@@ -81,6 +83,7 @@ class Parflow(CMakePackage):
             '-DHDF5_ROOT={0}'.format(spec['hdf5'].prefix),
             '-DSILO_ROOT={0}'.format(spec['silo'].prefix),
             '-DHYPRE_ROOT={0}'.format(spec['hypre'].prefix),
+            '-DPARFLOW_ENABLE_NETCDF=TRUE',
             '-DNETCDF_DIR={0}'.format(spec['netcdf'].prefix),
             '-DPARFLOW_HAVE_CLM=TRUE',
             '-DPARFLOW_AMPS_LAYER=mpi1',
